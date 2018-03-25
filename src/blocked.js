@@ -1,5 +1,9 @@
 const BLOCKED_LABEL_NAME = 'blocked'
-const DEFAULT_CONFIG = { enabled: true, label_name: BLOCKED_LABEL_NAME }
+const DEFAULT_CONFIG = {
+  enabled: true,
+  label_name: BLOCKED_LABEL_NAME,
+  target_url: 'https://github.com/aliou/probot-blocked'
+}
 const STATUS_MAP = {
   success: {
     state: 'success',
@@ -37,7 +41,8 @@ module.exports = async function (robot, context) {
   // Build the status params object using the status map above.
   const params = Object.assign({
     sha: pr.head.sha,
-    context: 'probot/blocked'
+    context: 'probot/blocked',
+    target_url: config.target_url,
   }, STATUS_MAP[status])
 
   await context.github.repos.createStatus(context.repo(params))
